@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
+import { TransactionProvider } from "@/contexts/transaction-context";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs as WebTabs } from "expo-router/tabs";
 import {
@@ -17,6 +18,7 @@ export default function Layout() {
 
   return (
     <ThemeProvider>
+      <TransactionProvider>
       {process.env.EXPO_OS === "web" ? (
         <WebTabs
           screenOptions={{
@@ -35,44 +37,45 @@ export default function Layout() {
           <WebTabs.Screen
             name="(index)"
             options={{
-              title: "Home",
-              tabBarIcon: (props) => <MaterialIcons {...props} name="home" />,
+              title: "Overview",
+              tabBarIcon: (props) => <MaterialIcons {...props} name="account-balance-wallet" />,
             }}
           />
           <WebTabs.Screen
             name="(info)"
             options={{
-              title: "Info",
-              tabBarIcon: (props) => <MaterialIcons {...props} name="info" />,
+              title: "Transactions",
+              tabBarIcon: (props) => <MaterialIcons {...props} name="list" />,
             }}
           />
         </WebTabs>
       ) : (
         <NativeTabs>
           <NativeTabs.Trigger name="(index)">
-            <Label>Home</Label>
+            <Label>Overview</Label>
             <Icon
               {...Platform.select({
-                ios: { sf: { default: "house", selected: "house.fill" } },
+                ios: { sf: { default: "wallet.pass", selected: "wallet.pass.fill" } },
                 default: {
-                  src: <VectorIcon family={MaterialIcons} name="home" />,
+                  src: <VectorIcon family={MaterialIcons} name="account-balance-wallet" />,
                 },
               })}
             />
           </NativeTabs.Trigger>
           <NativeTabs.Trigger name="(info)">
-            <Label>Info</Label>
+            <Label>Transactions</Label>
             <Icon
               {...Platform.select({
-                ios: { sf: "cursorarrow.rays" },
+                ios: { sf: "list.bullet" },
                 default: {
-                  src: <VectorIcon family={MaterialIcons} name="info" />,
+                  src: <VectorIcon family={MaterialIcons} name="list" />,
                 },
               })}
             />
           </NativeTabs.Trigger>
         </NativeTabs>
       )}
+      </TransactionProvider>
     </ThemeProvider>
   );
 }
